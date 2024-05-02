@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Mecanico {
     private String nome;
-    private int anosexperiencia;
+    private String anosexperiencia;
     public Mecanico(DadosCadastroMecanico dados){
         this.nome = dados.nome();
         this.anosexperiencia = dados.anosexperiencia();

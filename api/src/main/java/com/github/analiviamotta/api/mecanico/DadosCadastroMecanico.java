@@ -4,5 +4,5 @@ import jakarta.validation.constraints.NotBlank;
 
 
 public record DadosCadastroMecanico(@NotBlank String nome,
-                                    int anosexperiencia) {
+                                    String anosexperiencia) {
 }

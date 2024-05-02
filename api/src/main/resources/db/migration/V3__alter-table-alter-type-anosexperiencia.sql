@@ -1,0 +1,1 @@
+alter table consertos alter column anosexperiencia varchar(20);
