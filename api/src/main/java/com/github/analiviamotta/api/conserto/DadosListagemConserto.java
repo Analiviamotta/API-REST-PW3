@@ -1,6 +1,7 @@
 package com.github.analiviamotta.api.conserto;
 
-public record DadosListagemConserto(Long id,
+public record DadosListagemConserto(
+                                    Long id,
                                     String dataentrada,
                                     String datasaida,
                                     String nome,

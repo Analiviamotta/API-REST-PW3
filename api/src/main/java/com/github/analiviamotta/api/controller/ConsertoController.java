@@ -37,7 +37,7 @@ public class ConsertoController {
     @GetMapping
     @RequestMapping("/algunsdados")
     public List<DadosListagemConserto> listarAlgunsDadoss(){
-        return consertoRepository.findAll().stream().map(DadosListagemConserto::new).toList();
+        return consertoRepository.findAllByAtivoTrue().stream().map(DadosListagemConserto::new).toList();
     }
     @GetMapping("/{id}")
     public ResponseEntity getConsertoById(@PathVariable Long id){
