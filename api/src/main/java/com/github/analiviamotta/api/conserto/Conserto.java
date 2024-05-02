@@ -30,4 +30,10 @@ public class Conserto {
         this.mecanico = new Mecanico(dados.mecanico());
         this.veiculo = new Veiculo(dados.veiculo());
     }
+    public void atualizaDados(DadosAtualizacao dados){
+        if(dados.datasaida() != null)
+            datasaida = dados.datasaida();
+        if(dados.mecanico() != null)
+            mecanico.atualizaDados(dados.mecanico());
+    }
 }

@@ -1,9 +1,6 @@
 package com.github.analiviamotta.api.controller;
 
-import com.github.analiviamotta.api.conserto.Conserto;
-import com.github.analiviamotta.api.conserto.ConsertoRepository;
-import com.github.analiviamotta.api.conserto.DadosCadastroConserto;
-import com.github.analiviamotta.api.conserto.DadosListagemConserto;
+import com.github.analiviamotta.api.conserto.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +47,11 @@ public class ConsertoController {
             return ResponseEntity.ok(conserto);
         }
         return ResponseEntity.notFound().build();
+    }
+    @PutMapping
+    @Transactional
+    public void atualizar(@RequestBody @Valid DadosAtualizacao dados){
+        Conserto conserto = consertoRepository.getReferenceById(dados.id());
+        conserto.atualizaDados(dados);
     }
 }
