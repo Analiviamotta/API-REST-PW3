@@ -54,6 +54,12 @@ public class ConsertoController {
         Conserto conserto = consertoRepository.getReferenceById(dados.id());
         conserto.atualizaDados(dados);
     }
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void excluir(@PathVariable Long id){
+        Conserto conserto = consertoRepository.getReferenceById(id);
+        conserto.excluir();
+    }
 
 
 }
