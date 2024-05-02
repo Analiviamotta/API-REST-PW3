@@ -4,12 +4,14 @@ import com.github.analiviamotta.api.conserto.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +24,12 @@ public class ConsertoController {
 
     @PostMapping
     @Transactional
-    public void cadastrar(@RequestBody @Valid DadosCadastroConserto dados){
-        consertoRepository.save(new Conserto(dados));
+    public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroConserto dados,
+                                    UriComponentsBuilder uriComponentsBuilder){
+        var conserto = new Conserto(dados);
+        consertoRepository.save(conserto);
+        var uri = uriComponentsBuilder.path("/consertos/{id}").buildAndExpand(conserto.getId()).toUri();
+        return ResponseEntity.created(uri).body(new DadosDetalhamentoConserto(conserto));
     }
 
     @GetMapping
@@ -44,21 +50,23 @@ public class ConsertoController {
         Optional<Conserto> optionalConserto = consertoRepository.findById(id);
         if(optionalConserto.isPresent()){
             Conserto conserto = optionalConserto.get();
-            return ResponseEntity.ok(conserto);
+            return ResponseEntity.ok(new DadosDetalhamentoConserto(conserto));
         }
         return ResponseEntity.notFound().build();
     }
     @PutMapping
     @Transactional
-    public void atualizar(@RequestBody @Valid DadosAtualizacao dados){
+    public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacao dados){
         Conserto conserto = consertoRepository.getReferenceById(dados.id());
         conserto.atualizaDados(dados);
+        return ResponseEntity.ok(new DadosDetalhamentoConserto(conserto));
     }
     @DeleteMapping("/{id}")
     @Transactional
-    public void excluir(@PathVariable Long id){
+    public ResponseEntity excluir(@PathVariable Long id){
         Conserto conserto = consertoRepository.getReferenceById(id);
         conserto.excluir();
+        return ResponseEntity.noContent().build();
     }
 
 
