@@ -18,7 +18,7 @@ public class Mecanico {
     }
 
     public void atualizaDados(DadosAtualizacaoMecanico dados){
-        if(dados.nome() != null) nome = dados.nome();
+        if(dados.nome() != null && !dados.nome().trim().isEmpty()) nome = dados.nome();
 
         if(dados.anosexperiencia() != null) anosexperiencia = dados.anosexperiencia();
     }
