@@ -1,7 +1,9 @@
 package com.github.analiviamotta.api.controller;
 
 
+import com.github.analiviamotta.api.usuario.Usuario;
 import com.github.analiviamotta.api.usuario.dadosAutenticacao;
+import com.github.analiviamotta.api.util.security.PW3TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ public class AutenticacaoController {
 
     @Autowired
     private AuthenticationManager manager;
+    @Autowired
+    private PW3TokenService tokenService;
 
     @PostMapping
     public ResponseEntity efetuarLogin(@RequestBody @Valid dadosAutenticacao dados) {
@@ -26,7 +30,7 @@ public class AutenticacaoController {
 
         var authentication = manager.authenticate(token);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok( tokenService.gerarToken( (Usuario) authentication.getPrincipal() ));
 
     }
 
