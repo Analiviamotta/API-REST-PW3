@@ -33,17 +33,19 @@ public class ConsertoController {
     }
 
     @GetMapping
-    public Page<Conserto> getConsertos(@PageableDefault( size=2,
+    public ResponseEntity getConsertos(@PageableDefault( size=2,
             page=0,
             sort={"mecanico.nome"},
             direction = Sort.Direction.ASC ) Pageable paginacao){
-        return consertoRepository.findAll(paginacao);
+            var pagina = consertoRepository.findAll(paginacao);
+        return ResponseEntity.ok(pagina);
     }
 
     @GetMapping
     @RequestMapping("/algunsdados")
-    public List<DadosListagemConserto> listarAlgunsDadoss(){
-        return consertoRepository.findAllByAtivoTrue().stream().map(DadosListagemConserto::new).toList();
+    public ResponseEntity listarAlgunsDadoss(){
+        var list = consertoRepository.findAllByAtivoTrue().stream().map(DadosListagemConserto::new).toList();
+        return ResponseEntity.ok(list);
     }
     @GetMapping("/{id}")
     public ResponseEntity getConsertoById(@PathVariable Long id){
