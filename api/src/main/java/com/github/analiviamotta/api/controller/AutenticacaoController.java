@@ -3,6 +3,7 @@ package com.github.analiviamotta.api.controller;
 
 import com.github.analiviamotta.api.usuario.Usuario;
 import com.github.analiviamotta.api.usuario.dadosAutenticacao;
+import com.github.analiviamotta.api.util.security.DadosTokenJWT;
 import com.github.analiviamotta.api.util.security.PW3TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,9 @@ public class AutenticacaoController {
 
         var authentication = manager.authenticate(token);
 
-        return ResponseEntity.ok( tokenService.gerarToken( (Usuario) authentication.getPrincipal() ));
+        var tokenJWT = tokenService.gerarToken( (Usuario) authentication.getPrincipal() );
+
+        return ResponseEntity.ok( new DadosTokenJWT(tokenJWT) );
 
     }
 
